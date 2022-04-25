@@ -3,58 +3,45 @@ readligo.py
 Version 0.2
 April 21, 2016
 Jonah Kanner, Roy Williams, and Alan Weinstein
-
 Updates in this version:
  * Should now work with both Python 2 and Python 3
-
 This module provides tools for reading LIGO data
 files.  Data along with supporting documentation
 can be downloaded from the losc web site:
 https://losc.ligo.org
-
 Some possible use cases are shown below.
-
 Example #0:
 To load all data from a single file:
 strain, time, dq = rl.loaddata('ligo_data/H-H1_LOSC_4_V1-842653696-4096.hdf5', 'H1')
-
 Example #1: 
 segList = getsegs(842657792, 842658792, 'H1')
 for (start, stop) in segList:
   strain, meta, dq = getstrain(start, stop, 'H1')
   # -- Analysis code here
   ...
-
 This default configuration assumes that the needed LIGO data 
 files are available in the current working directory or a 
 subdirectory.  LIGO data between the input GPS times is loaded
 into STRAIN.  META is a dictionary of gps start, gps stop, and the 
 sample time.  DQ is a dictionary of data quality flags.
-
 Example #2
 segList = SegmentList('H1_segs.txt')
-
 In Example 2, 'H1_segs.txt' is a segment list downloaded from the
 LOSC web site using the Timeline application.  This may be used in the same
 manner as segList in example 1.
-
 Example #3
 filelist = FileList(directory='/home/ligodata')
 segList = getsegs(842657792, 842658792, 'H1', filelist=filelist)
 for start, stop in segList:
   strain, meta, dq = getstrain(start, stop, 'H1', filelist=filelist)
   # -- Analysis code here
-
 In this example, the first command searches the indicated directory and 
 sub-directories for LIGO data files.  This list of data files is then 
 used to construct a segment list and load the requested data.  
-
 -- SEGMENT LISTS --
-
 Segment lists may be downloaded from the LOSC web site
 using the Timeline Query Form or constructed directly
 from the data files.  
-
 Read in a segment list downloaded from the Timeline 
 application on the LOSC web site with SegmentList:
 >> seglist = SegmentList('H1_segs.txt')
@@ -62,7 +49,6 @@ OR
 Construct a segment list directly from the LIGO
 data files with getsegs():
 >> seglist = getsegs(842657792, 842658792, 'H1', flag='DATA', filelist=None)
-
 """
 
 import numpy as np
@@ -150,10 +136,8 @@ def loaddata(filename, ifo=None, tvec=True, readstrain=True):
     The input filename should be a LOSC .hdf5 file or a LOSC .gwf
     file.  The file type will be determined from the extenstion.  
     The detector should be H1, H2, or L1.
-
     The return value is: 
     STRAIN, TIME, CHANNEL_DICT
-
     STRAIN is a vector of strain values
     TIME is a vector of time values to match the STRAIN vector
          unless the flag tvec=False.  In that case, TIME is a
@@ -216,7 +200,6 @@ def dq2segs(channel, gps_start):
     This function takes a DQ CHANNEL (as returned by loaddata or getstrain) and 
     the GPS_START time of the channel and returns a segment
     list.  The DQ Channel is assumed to be a 1 Hz channel.
-
     Returns of a list of segment GPS start and stop times.
     """
     #-- Check if the user input a dictionary
@@ -238,16 +221,13 @@ def dq_channel_to_seglist(channel, fs=4096):
     WARNING: 
     This function is designed to work the output of the low level function
     LOADDATA, not the output from the main data loading function GETSTRAIN.
-
     Takes a data quality 1 Hz channel, as returned by
     loaddata, and returns a segment list.  The segment
     list is really a list of slices for the strain 
     associated strain vector.  
-
     If CHANNEL is a dictionary instead of a single channel,
     an attempt is made to return a segment list for the DEFAULT
     channel.  
-
     Returns a list of slices which can be used directly with the 
     strain and time outputs of LOADDATA.
     """
@@ -340,7 +320,6 @@ def getstrain(start, stop, ifo, filelist=None):
     STOP  should be the end gps time of the data to be loaded.
     IFO should be 'H1', 'H2', or 'L1'.
     FILELIST is an optional argument that is a FileList() instance.
-
     The return value is (strain, meta, dq)
     
     STRAIN: The data as a strain time series
@@ -432,7 +411,6 @@ def getsegs(start, stop, ifo, flag='DATA', filelist=None):
     LOSC data files.  By default, the method uses
     files in the current working directory to 
     construct a segment list.  
-
     If a FileList is passed in the flag FILELIST,
     then those files will be searched for segments
     passing the DQ flag passed as the FLAG argument.
@@ -510,5 +488,3 @@ def getsegs(start, stop, ifo, flag='DATA', filelist=None):
     segList = [seg for seg in segList if seg is not None]
 
     return SegmentList(segList)
-
-
