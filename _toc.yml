@@ -4,4 +4,3 @@ parts:
 - caption: Ligo notebook
   chapters:
   - file: index
-
