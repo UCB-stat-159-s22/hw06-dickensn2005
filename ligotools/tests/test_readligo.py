@@ -1,5 +1,4 @@
 #Testing functions in ligotools package
-
 import numpy as np
 
 # LIGO-specific readligo.py imports
@@ -29,6 +28,7 @@ def test_data_load_H1():
     
 
 #Test 3: Testing reading files    
+
 def test_reading_hdf5_L1():
     filename = "data/L-L1_LOSC_4_V2-1126259446-32.hdf5"
     strain, gpsStart, ts, qmask, shortnameList, injmask, injnameList = rl.read_hdf5(filename)
