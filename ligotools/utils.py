@@ -38,7 +38,7 @@ def reqshift(data, fshift=100, sample_rate=4096):
     return z
 
     
-def plot_SNR_around_event(time, timemax, SNR, pcolor, det, eventname, plottype):
+def plot_H1_matched_filter_SNR_around_event(time, timemax, SNR, pcolor, det, eventname, plottype):
 	plt.figure(figsize=(10,8))
 	plt.subplot(2,1,1)
 	plt.plot(time-timemax, SNR, pcolor,label=det+' SNR(t)')
@@ -60,7 +60,7 @@ def plot_SNR_around_event(time, timemax, SNR, pcolor, det, eventname, plottype):
 	if save:
 		plt.savefig('figures/'+eventname+"_"+det+"_SNR."+plottype)
 
-def plot_whitened_data_around_event(time, tevent, timemax, strain_whitenbp, pcolor, det, template_match, eventname, plottype):
+def plot_H1_whitened_data_around_event(time, tevent, timemax, strain_whitenbp, pcolor, det, template_match, eventname, plottype):
 	plt.figure(figsize=(10,8))
 	plt.subplot(2,1,1)
 	plt.plot(time-tevent,strain_whitenbp,pcolor,label=det+' whitened h(t)')
@@ -86,7 +86,7 @@ def plot_whitened_data_around_event(time, tevent, timemax, strain_whitenbp, pcol
                 
 # -- Display ASD/PSD and template
 # must multiply by sqrt(f) to plot template fft on top of ASD:  
-def plot_ASD_and_template(template_fft, datafreq, d_eff, freqs, data_psd, pcolor, det, fs, eventname, plottype):
+def plot_H1_ASD_and_template_around event(template_fft, datafreq, d_eff, freqs, data_psd, pcolor, det, fs, eventname, plottype):
 	plt.figure(figsize=(10,6))
 	template_f = np.absolute(template_fft)*np.sqrt(np.abs(datafreq)) / d_eff
 	plt.loglog(datafreq, template_f, 'k', label='template(f)*sqrt(f)')
