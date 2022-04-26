@@ -1,7 +1,6 @@
 #Adding required packages
 import numpy as np 
 import matplotlib.pyplot as plt
-
 from scipy.io import wavfile
 
 #Whiten function from index.ipnyb
@@ -38,10 +37,13 @@ def reqshift(data, fshift=100, sample_rate=4096):
     return z
 
     
-def plot_H1_matched_filter_SNR_around_event(time, timemax, SNR, pcolor, det, eventname, plottype):
+def plot_H1_around_event_graphs(time, timemax, SNR, det, template_match, strain_whitenbp, tevent, template_fft, datafreq, d_eff, data_psd, freqs, fs, pcolor, plottype, eventname = 'GW150914'):
+
+    #plot_H1_matched_filter_SNR_around_event
     plt.figure(figsize=(10,8))
     plt.subplot(2,1,1)
     plt.plot(time-timemax, SNR, pcolor,label=det+' SNR(t)')
+    plt.ylim([0,25.])
     plt.grid('on')
     plt.ylabel('SNR')
     plt.xlabel('Time since {0:.4f}'.format(timemax))
@@ -53,13 +55,13 @@ def plot_H1_matched_filter_SNR_around_event(time, timemax, SNR, pcolor, det, eve
     plt.grid('on')
     plt.ylabel('SNR')
     plt.xlim([-0.15,0.05])
+    plt.xlim([-0.3,+0.3])
     plt.grid('on')
     plt.xlabel('Time since {0:.4f}'.format(timemax))
     plt.legend(loc='upper left')
-    if save:
-        plt.savefig('figurs/'+eventname+"_"+det+"_SNR."+plottype)
+    plt.savefig(r'figurs/'+ eventname+"_"+det+"_SNR."+plottype)
 
-def plot_H1_whitened_data_around_event(time, tevent, timemax, strain_whitenbp, pcolor, det, template_match, eventname, plottype):
+    #plot_H1_whitened_data_around_event
     plt.figure(figsize=(10,8))
     plt.subplot(2,1,1)
     plt.plot(time-tevent,strain_whitenbp,pcolor,label=det+' whitened h(t)')
@@ -81,11 +83,9 @@ def plot_H1_whitened_data_around_event(time, tevent, timemax, strain_whitenbp, p
     plt.ylabel('whitened strain (units of noise stdev)')
     plt.legend(loc='upper left')
     plt.title(det+' Residual whitened data after subtracting template around event')
-    plt.savefig('figurs/'+eventname+"_"+det+"_matchtime."+plottype)
-                
-# -- Display ASD/PSD and template
-# must multiply by sqrt(f) to plot template fft on top of ASD:  
-def plot_H1_ASD_and_template_around_event(template_fft, datafreq, d_eff, freqs, data_psd, pcolor, det, fs, eventname, plottype):
+    plt.savefig(r'figurs/'+ eventname+"_"+det+"_matchtime."+plottype)
+
+     #plot_H1_ASD_and_template_around_event
     plt.figure(figsize=(10,6))
     template_f = np.absolute(template_fft)*np.sqrt(np.abs(datafreq)) / d_eff
     plt.loglog(datafreq, template_f, 'k', label='template(f)*sqrt(f)')
@@ -97,4 +97,5 @@ def plot_H1_ASD_and_template_around_event(template_fft, datafreq, d_eff, freqs, 
     plt.ylabel('strain noise ASD (strain/rtHz), template h(f)*rt(f)')
     plt.legend(loc='upper left')
     plt.title(det+' ASD and template around event')
-    plt.savefig('figurs/'+eventname+"_"+det+"_matchfreq."+plottype)
+    plt.savefig(r'figurs/'+ eventname+"_"+det+"_matchfreq."+plottype)
+
