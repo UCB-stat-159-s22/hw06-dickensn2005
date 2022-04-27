@@ -98,4 +98,3 @@ def plot_H1_around_event_graphs(time, timemax, SNR, det, template_match, strain_
     plt.legend(loc='upper left')
     plt.title(det+' ASD and template around event')
     plt.savefig(r'figurs/'+ eventname+"_"+det+"_matchfreq."+plottype)
-
